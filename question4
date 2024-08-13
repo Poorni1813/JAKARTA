@@ -1,0 +1,73 @@
+import java.util.*;
+
+class Employee {
+    int empId;
+    String name;
+    String address;
+    String designation;
+    String department;
+    String phoneNo;
+    double basicPay;
+    double hra;
+    double da;
+    double ta;
+    double salary;
+    public Employee(int empId, String name, String address, String designation, String department, String phoneNo, double basicPay) {
+        this.empId = empId;
+        this.name = name;
+        this.address = address;
+        this.designation = designation;
+        this.department = department;
+        this.phoneNo = phoneNo;
+        this.basicPay = basicPay;
+        calculateSalary();
+    }
+    private void calculateSalary() {
+        this.hra = 0.10 * this.basicPay;
+        this.da = 0.02 * this.basicPay;
+        this.ta = 0.02 * this.basicPay;
+        this.salary = this.basicPay + this.hra + this.da + this.ta;
+    }
+
+    @Override
+    public String toString() {
+        return "Emp_id: " + empId + ", Name: " + name + ", Address: " + address + 
+               ", Designation: " + designation + ", Department: " + department + 
+               ", Phone No: " + phoneNo + ", Basic Pay: " + basicPay + 
+               ", HRA: " + hra + ", DA: " + da + ", TA: " + ta + 
+               ", Total Salary: " + salary;
+    }
+}
+
+public class EmployeeManager {
+    private static final List<Employee> employees = new ArrayList<>();
+    public static void main(String[] args) {
+        employees.add(new Employee(1, "John Doe", "123 Elm Street", "Software Engineer", "IT", "123-456-7890", 50000));
+        employees.add(new Employee(2, "Jane Smith", "456 Oak Avenue", "Analyst", "Finance", "987-654-3210", 55000));
+        employees.add(new Employee(3, "Alice Johnson", "789 Pine Road", "Manager", "IT", "555-555-5555", 60000));
+        employees.add(new Employee(4, "Bob Brown", "321 Maple Drive", "Analyst", "Finance", "444-444-4444", 52000));
+        displayAllEmployees();
+        displayHighestSalaryInEachDepartment();
+    }
+    private static void displayAllEmployees() {
+        System.out.println("All Employees:");
+        for (Employee emp : employees) {
+            System.out.println(emp);
+        }
+    }
+    private static void displayHighestSalaryInEachDepartment() {
+        Map<String, Employee> highestSalaryInDepartment = new HashMap<>();
+
+        for (Employee emp : employees) {
+            String dept = emp.department;
+            if (!highestSalaryInDepartment.containsKey(dept) || emp.salary > highestSalaryInDepartment.get(dept).salary) {
+                highestSalaryInDepartment.put(dept, emp);
+            }
+        }
+
+        System.out.println("\nHighest Salary in Each Department:");
+        for (Map.Entry<String, Employee> entry : highestSalaryInDepartment.entrySet()) {
+            System.out.println("Department: " + entry.getKey() + ", " + entry.getValue());
+        }
+    }
+}
