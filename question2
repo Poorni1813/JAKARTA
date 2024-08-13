@@ -1,0 +1,35 @@
+public class ConsecutiveCharCount {
+
+    public static int countConsecutiveChars(String s) {
+        if (s == null || s.isEmpty()) {
+            return 0; // No characters to process
+        }
+
+        int count = 0;
+        int consecutiveCount = 1; // Initialize with 1 for the first character
+        char currentChar = s.charAt(0);
+
+        for (int i = 1; i < s.length(); i++) {
+            char c = s.charAt(i);
+            if (c == currentChar) {
+                consecutiveCount++;
+            } else {
+                if (consecutiveCount > 2) {
+                    count++;
+                }
+                currentChar = c;
+                consecutiveCount = 1;
+            }
+        }
+        if (consecutiveCount > 2) {
+            count++;
+        }
+
+        return count;
+    }
+
+    public static void main(String[] args) {
+        String s = "aaabbcccddeeefffgggg";
+        System.out.println(countConsecutiveChars(s)); 
+    }
+}
