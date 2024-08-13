@@ -1,0 +1,43 @@
+import java.util.HashMap;
+import java.util.Map;
+
+public class DuplicateDifference {
+
+    public static int findDuplicateDifference(int[] A) {
+        Map<Integer, Integer> firstOccurrence = new HashMap<>();
+        Map<Integer, Integer> lastOccurrence = new HashMap<>();
+        for (int i = 0; i < A.length; i++) {
+            int value = A[i];
+            if (firstOccurrence.containsKey(value)) {
+                lastOccurrence.put(value, i);
+            } else {
+                firstOccurrence.put(value, i);
+                lastOccurrence.put(value, i);
+            }
+        }
+        Integer firstDuplicate = null;
+        Integer lastDuplicate = null;
+        for (int i = 0; i < A.length; i++) {
+            int value = A[i];
+            if (firstOccurrence.containsKey(value) && firstOccurrence.get(value) != lastOccurrence.get(value)) {
+                if (firstDuplicate == null) {
+                    firstDuplicate = value;
+                }
+                lastDuplicate = value;
+            }
+        }
+        
+        if (firstDuplicate != null && lastDuplicate != null) {
+            int firstIndex = firstOccurrence.get(firstDuplicate);
+            int lastIndex = lastOccurrence.get(lastDuplicate);
+            return lastIndex - firstIndex;
+        } else {
+            return 0;
+        }
+    }
+
+    public static void main(String[] args) {
+        int[] A = {2, 3, 5, 2, 5, 7, 8};
+        System.out.println(findDuplicateDifference(A));  
+    }
+}
